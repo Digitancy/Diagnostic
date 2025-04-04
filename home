@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Diagnostic de Maturité Digitale</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      animation: fadeIn 1s ease-in;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #f4f7f9, #eef2f5);
+      color: #333;
+      padding: 40px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      color: #004080;
+      margin-bottom: 40px;
+    }
+    .question-block {
+      background: white;
+      border-left: 6px solid #004080;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      transition: transform 0.2s ease;
+    }
+    .question-block:hover {
+      transform: translateY(-2px);
+    }
+    .question-block h3 {
+      margin-bottom: 10px;
+      color: #004080;
+    }
+    label {
+      display: block;
+      margin: 6px 0;
+      font-weight: 500;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+    .result {
+      background: #e0f7fa;
+      border: 1px solid #b2ebf2;
+      padding: 25px;
+      border-radius: 12px;
+      margin-top: 40px;
+      font-size: 1.1em;
+    }
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    button {
+      background-color: #B72E50;
+      color: white;
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #D23F65;
+    }
+    .progress-bar {
+      width: 100%;
+      background: #ddd;
+      height: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background-color: #B72E50;
+      width: 0%;
+      transition: width 0.3s ease-in-out;
+    }
+    .section {
+      display: none;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .section.active {
+      display: block;
+      opacity: 1;
+      transform: translateX(0);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes buttonPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    h2 {
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    h2:hover {
+      transform: scale(1.03);
+      color: #B72E50;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚀 Diagnostic de Maturité Digitale <span style="font-size:0.5em; color:#B72E50;">by Digitancy</span></h1>
+
+  <div id="progressContainer" class="progress-bar" style="display: none; position: relative; height: 20px; background: #f0f0f0; border-radius: 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);">
+    <div class="progress-bar-fill" id="progressFill" style="height: 100%; background: linear-gradient(90deg, #B72E50, #D23F65); width: 0%; border-radius: 10px 0 0 10px; transition: width 0.3s ease-in-out;"></div>
+    <div id="progressLabel" style="position: absolute; width: 100%; text-align: center; font-size: 13px; color: #333; top: 0; line-height: 20px; font-weight: 600;">0%</div>
+  </div>
+
+  <div id="introSection" class="section active">
+  <div class="question-block" style="border-left: 6px solid #B72E50; background: linear-gradient(135deg, #ffffff, #fdf1f4); box-sizing: border-box; max-width: 100%; overflow: hidden; padding: 40px;">
+    <h2 style="color: #B72E50; text-align: center; font-size: 1.8em; margin-bottom: 10px;">🔍 Démarrons votre diagnostic</h2>
+    <p style="text-align: center; color: #555; margin-bottom: 30px; font-size: 1em;">Merci de renseigner les informations de votre entreprise pour personnaliser l'expérience.</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: space-between;">
+      <div style="flex: 1 1 100%; min-width: 250px;">
+        <label style="font-weight: 600; color: #333;">🏢 Nom de l'entreprise :</label>
+        <input type="text" id="entrepriseNom" required style="width: 100%; padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 1em;">
+      </div>
+      <div style="flex: 1 1 48%; min-width: 250px;">
+        <label style="font-weight: 600; color: #333;">👥 Taille de l'entreprise :</label>
+        <select id="entrepriseTaille" required style="width: 100%; padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 1em;">
+          <option value="">-- Sélectionnez --</option>
+          <option value="TPE">TPE</option>
+          <option value="PME">PME</option>
+          <option value="ETI">ETI</option>
+          <option value="Grand Groupe">Grand Groupe</option>
+        </select>
+      </div>
+      <div style="flex: 1 1 48%; min-width: 250px;">
+        <label style="font-weight: 600; color: #333;">🏭 Secteur d'activité :</label>
+        <input type="text" id="entrepriseSecteur" required style="width: 100%; padding: 14px; border: 1px solid #ccc; border-radius: 10px; font-size: 1em;">
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+  </div>
+
+  <form id="diagnosticForm" style="display: none;"></form>
+
+  <div class="navigation-buttons">
+    <button id="prevBtn" style="display: none;">Retour</button>
+    <button id="nextBtn">Suivant</button>
+  </div>
+
+  <div id="resultat" class="result" style="display:none;"></div>
+  <div style="text-align:center; margin-top: 20px; display: none;" id="pdfBtnContainer">
+    <button id="btnTelechargerPDF">📄 Télécharger le rapport PDF</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const btn = document.getElementById("btnTelechargerPDF");
+  if (btn) {
+    btn.addEventListener("click", genererPDFManuel);
+  }
+});
+</script>
+
+  <script>
+    // === Réintégration complète du script JavaScript ===
+const axes = ["Leadership & Management", "People & Organisation", "Client Experience", "Technology", "Data & Insights"];
+const axeColors = {
+  "Leadership & Management": "#004C84",
+  "People & Organisation": "#6E2A33",
+  "Client Experience": "#B03A5B",
+  "Technology": "#31747D",
+  "Data & Insights": "#3E3E3E"
+};
+const descriptions = {
+  "Leadership & Management": "Évaluez la capacité de leadership à piloter la transformation digitale.",
+  "People & Organisation": "Mesurez l’aptitude de l’organisation à accompagner le changement digital.",
+  "Client Experience": "Analysez la capacité à proposer une expérience client fluide et digitale.",
+  "Technology": "Identifiez le niveau d’intégration des technologies dans votre organisation.",
+  "Data & Insights": "Évaluez la maturité dans la collecte et l’exploitation des données."
+};
+const reponses = ["Pas du tout", "En cours de réflexion", "Partiellement en place", "Complètement opérationnel"];
+const questions = {
+  "Leadership & Management": ["Avez-vous une vision digitale clairement exprimée par la direction ?", "Avez-vous lancé des initiatives concrètes de transformation digitale ?", "Avez-vous expérimenté des projets pilotes digitaux ?", "Disposez-vous d’une roadmap digitale structurée ?", "Avez-vous mis en place un modèle de leadership digital ?", "Votre organisation est-elle capable de passer à l’échelle en digital ?", "Collaborez-vous activement dans un écosystème digital ouvert ?"],
+  "People & Organisation": ["Le personnel a-t-il conscience des enjeux du digital ?", "La culture digitale est-elle encouragée dans votre organisation ?", "Avez-vous défini des rôles digitaux spécifiques ?", "Travaillez-vous en équipes pluridisciplinaires digitalisées ?", "Votre organisation applique-t-elle des méthodes agiles à grande échelle ?", "Innovez-vous activement en matière de management digital ?", "Disposez-vous d’un environnement de travail entièrement digitalisé ?"],
+  "Client Experience": ["Proposez-vous des services via des canaux digitaux ?", "Avez-vous une stratégie cross-canal pour vos clients ?", "Offrez-vous une expérience omnicanale cohérente ?", "Personnalisez-vous l'expérience client à l'aide du digital ?", "Co-créez-vous des services avec vos clients ?", "Utilisez-vous les données pour orienter votre marketing ?", "Créez-vous des expériences clients prédictives ?"],
+  "Technology": ["Utilisez-vous des outils digitaux de base dans votre activité ?", "Intégrez-vous des technologies émergentes ?", "Automatisez-vous certains processus grâce à la technologie ?", "Disposez-vous d’une infrastructure technologique solide ?", "Menez-vous des projets d’innovation technologique ?", "Êtes-vous capable d’industrialiser vos solutions digitales ?", "Utilisez-vous des technologies véritablement disruptives ?"],
+  "Data & Insights": ["Les collaborateurs comprennent-ils la valeur de la donnée ?", "Collectez-vous des données pertinentes dans vos processus ?", "Les données guident-elles vos opérations ?", "Analysez-vous les données de façon prédictive ?", "Avez-vous des systèmes pour capter des insights en temps réel ?", "Utilisez-vous l’IA pour analyser vos données ?", "Automatisez-vous la prise de décision grâce à la donnée ?"]
+};
+
+let qIndex = 0;
+let sectionIndex = 0;
+const form = document.getElementById("diagnosticForm");
+axes.forEach((axe, idx) => {
+  const section = document.createElement("div");
+  section.className = "section";
+  // Suppression de l'affichage initial pour éviter le doublon de l'axe 1
+  const title = document.createElement("h2");
+  title.textContent = axe;
+  title.style.color = axeColors[axe];
+  const desc = document.createElement("p");
+  desc.textContent = descriptions[axe];
+  desc.style.fontStyle = "italic";
+  desc.style.color = axeColors[axe];
+  section.appendChild(title);
+  section.appendChild(desc);
+  questions[axe].forEach((q, i) => {
+    const div = document.createElement("div");
+    div.className = "question-block";
+    div.style.borderLeft = `6px solid ${axeColors[axe]}`;
+    div.innerHTML = `<h3>${axe} - Niveau ${i + 1}</h3><p>${q}</p>`;
+    reponses.forEach((rep, idx) => {
+      div.innerHTML += `<label><input type="radio" name="q${qIndex}" value="${idx}" required> ${rep}</label>`;
+    });
+    section.appendChild(div);
+    qIndex++;
+  });
+  form.appendChild(section);
+});
+
+const nextBtn = document.getElementById("nextBtn");
+const prevBtn = document.getElementById("prevBtn");
+
+const updateProgress = () => {
+  const fill = document.getElementById("progressFill");
+  const totalSteps = axes.length;
+  const progressSteps = Math.max(0, sectionIndex - 1); // L'intro ne compte pas
+  const percent = Math.min(progressSteps * 20, 100); // 20% par axe
+  fill.style.width = `${percent}%`;
+  document.getElementById("progressLabel").textContent = `${percent}%`;
+};
+
+nextBtn.addEventListener("click", function(e) {
+  const intro = document.getElementById("introSection");
+  if (intro && intro.classList.contains("active")) {
+    const nom = document.getElementById("entrepriseNom").value.trim();
+    const taille = document.getElementById("entrepriseTaille").value;
+    const secteur = document.getElementById("entrepriseSecteur").value.trim();
+    if (!nom || !taille || !secteur) {
+      alert("Merci de remplir toutes les informations de l'entreprise.");
+      return;
+    }
+    intro.classList.remove("active");
+    document.getElementById("diagnosticForm").style.display = "block";
+    document.getElementById("progressContainer").style.display = "block";
+    const sections = document.querySelectorAll(".section");
+    sectionIndex = 1;
+    sections[sectionIndex].classList.add("active");
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  e.preventDefault();
+  const sections = document.querySelectorAll(".section");
+  if (sectionIndex < sections.length - 1) {
+    sections[sectionIndex].classList.remove("active");
+    sectionIndex++;
+    sections[sectionIndex].classList.add("active");
+    prevBtn.style.display = "inline-block";
+    if (sectionIndex === sections.length - 1) {
+      nextBtn.textContent = "🎯 Voir mon profil";
+    }
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    calculerScore();
+    updateProgress();
+  }
+});
+
+prevBtn.addEventListener("click", function(e) {
+  e.preventDefault();
+  const sections = document.querySelectorAll(".section");
+  if (sectionIndex > 0) {
+    sections[sectionIndex].classList.remove("active");
+    sectionIndex--;
+    sections[sectionIndex].classList.add("active");
+    nextBtn.textContent = "Suivant";
+    if (sectionIndex === 0) {
+      prevBtn.style.display = "none";
+    }
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+  function calculerScore() {
+  const scores = new Array(axes.length).fill(0);
+  const questionsParAxe = 7;
+  const inputs = document.querySelectorAll("input[type=radio]:checked");
+  if (inputs.length < 35) {
+    alert("Merci de répondre à toutes les questions.");
+    return;
+  }
+  inputs.forEach((input, index) => {
+    const axeIndex = Math.floor(index / questionsParAxe);
+    scores[axeIndex] += parseInt(input.value);
+  });
+  const niveauFinal = score => {
+    if (score <= 3) return "Explorer";
+    if (score <= 6) return "Activator";
+    if (score <= 9) return "Experimenter";
+    if (score <= 12) return "Visionary";
+    if (score <= 15) return "Leader";
+    if (score <= 18) return "Innovator";
+    return "Disruptor";
+  };
+  let totalScore = scores.reduce((a, b) => a + b, 0);
+  const profil = niveauFinal(totalScore);
+  const result = document.getElementById("resultat");
+  result.style.display = "block";
+  let html = `<h2>🧠 Résultats de ${document.getElementById("entrepriseNom").value}</h2>`;
+  const profilDescriptions = {
+    "Explorer": "Vous êtes au début de votre parcours de transformation digitale. Il est essentiel de sensibiliser vos équipes, d'explorer les opportunités offertes par le digital et de structurer une première feuille de route.",
+    "Activator": "Votre organisation commence à prendre conscience des enjeux digitaux. Des actions pilotes sont lancées, mais une structuration plus globale est nécessaire.",
+    "Experimenter": "Votre entreprise expérimente le digital avec des projets pilotes. Il est temps de capitaliser sur ces initiatives pour élaborer une vision cohérente.",
+    "Visionary": "Une vision digitale commence à se dessiner et des chantiers structurants sont en place. Il reste à renforcer l'exécution et l'alignement organisationnel.",
+    "Leader": "Votre organisation est avancée sur le digital avec une vraie capacité d'exécution. Il faut maintenant viser l’agilité à grande échelle.",
+    "Innovator": "Vous innovez à l’échelle et exploitez pleinement les leviers digitaux. Un effort particulier sur l’ouverture et la transversalité renforcera votre impact.",
+    "Disruptor": "Votre organisation est un modèle de transformation. Vous pouvez désormais jouer un rôle moteur dans votre écosystème et co-construire l'avenir."
+  };
+  const axeDescriptions = {
+    "Leadership & Management": "Mesure la capacité du leadership à piloter une transformation digitale structurée, avec vision et gouvernance.",
+    "People & Organisation": "Évalue l’aptitude des collaborateurs et de la culture d’entreprise à accompagner les changements numériques.",
+    "Client Experience": "Analyse la maturité des parcours clients et l’usage du digital pour fluidifier et personnaliser l’expérience.",
+    "Technology": "Juge le niveau d’adoption, d'automatisation et d’industrialisation des solutions technologiques.",
+    "Data & Insights": "Mesure la capacité à collecter, analyser et valoriser les données pour orienter les décisions."
+  };
+  html += `<p><strong>Taille :</strong> ${document.getElementById("entrepriseTaille").value}</p>`;
+  html += `<p><strong>Secteur :</strong> ${document.getElementById("entrepriseSecteur").value}</p>`;
+  html += `<p><strong>Profil Global :</strong> ${profil}</p>`;
+  html += '<ul>';
+  scores.forEach((score, i) => {
+    html += `<li><strong>${axes[i]}</strong> → ${niveauFinal(score)}</li>`;
+  });
+  html += '</ul>';
+  html += `<p style="margin-top:20px;"><strong>Description du Profil Global :</strong><br>${profilDescriptions[profil]}</p>`;
+  html += '<div style="margin-top: 20px;">';
+  scores.forEach((score, i) => {
+    html += `<p><strong>${axes[i]} :</strong> ${axeDescriptions[axes[i]]}</p>`;
+  });
+  html += '</div>';
+  html += '<p><em>Généré par Digitancy</em></p>';
+  result.innerHTML = html;
+  document.querySelector(".navigation-buttons").style.display = "none";
+  document.getElementById('pdfBtnContainer').style.display = 'block';
+}
+function genererPDFManuel() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const nom = document.getElementById("entrepriseNom").value;
+  const taille = document.getElementById("entrepriseTaille").value;
+  const secteur = document.getElementById("entrepriseSecteur").value;
+
+  const niveauxAxes = [];
+  const questionsParAxe = 7;
+  const inputs = document.querySelectorAll("input[type=radio]:checked");
+  const scores = new Array(axes.length).fill(0);
+
+  inputs.forEach((input, index) => {
+    const axeIndex = Math.floor(index / questionsParAxe);
+    scores[axeIndex] += parseInt(input.value);
+  });
+
+  const niveauFinal = score => {
+    if (score <= 3) return "Explorer";
+    if (score <= 6) return "Activator";
+    if (score <= 9) return "Experimenter";
+    if (score <= 12) return "Visionary";
+    if (score <= 15) return "Leader";
+    if (score <= 18) return "Innovator";
+    return "Disruptor";
+  };
+
+  const profilDescriptions = {
+    "Explorer": "Vous êtes au début de votre parcours de transformation digitale. Il est essentiel de sensibiliser vos équipes, d'explorer les opportunités offertes par le digital et de structurer une première feuille de route.",
+    "Activator": "Votre organisation commence à prendre conscience des enjeux digitaux. Des actions pilotes sont lancées, mais une structuration plus globale est nécessaire.",
+    "Experimenter": "Votre entreprise expérimente le digital avec des projets pilotes. Il est temps de capitaliser sur ces initiatives pour élaborer une vision cohérente.",
+    "Visionary": "Une vision digitale commence à se dessiner et des chantiers structurants sont en place. Il reste à renforcer l'exécution et l'alignement organisationnel.",
+    "Leader": "Votre organisation est avancée sur le digital avec une vraie capacité d'exécution. Il faut maintenant viser l’agilité à grande échelle.",
+    "Innovator": "Vous innovez à l’échelle et exploitez pleinement les leviers digitaux. Un effort particulier sur l’ouverture et la transversalité renforcera votre impact.",
+    "Disruptor": "Votre organisation est un modèle de transformation. Vous pouvez désormais jouer un rôle moteur dans votre écosystème et co-construire l'avenir."
+  };
+
+  const axeDescriptions = {
+    "Leadership & Management": "Mesure la capacité du leadership à piloter une transformation digitale structurée, avec vision et gouvernance.",
+    "People & Organisation": "Évalue l’aptitude des collaborateurs et de la culture d’entreprise à accompagner les changements numériques.",
+    "Client Experience": "Analyse la maturité des parcours clients et l’usage du digital pour fluidifier et personnaliser l’expérience.",
+    "Technology": "Juge le niveau d’adoption, d'automatisation et d’industrialisation des solutions technologiques.",
+    "Data & Insights": "Mesure la capacité à collecter, analyser et valoriser les données pour orienter les décisions."
+  };
+
+  const profilGlobal = niveauFinal(scores.reduce((a, b) => a + b, 0));
+  scores.forEach(s => niveauxAxes.push(niveauFinal(s)));
+
+  doc.setFontSize(16);
+  doc.setTextColor(40);
+  doc.text(`Résultats du Diagnostic - ${nom}`, 20, 20);
+
+  doc.setFontSize(12);
+  doc.setTextColor(60);
+  doc.text(`Taille : ${taille}`, 20, 30);
+  doc.text(`Secteur : ${secteur}`, 20, 38);
+  doc.text(`Profil Global : ${profilGlobal}`, 20, 46);
+
+  doc.setFontSize(11);
+  doc.setTextColor(0);
+  let y = 56;
+  doc.text("Description du profil :", 20, y);
+  y += 8;
+  doc.setFontSize(10);
+  doc.setTextColor(80);
+  doc.text(doc.splitTextToSize(profilDescriptions[profilGlobal], 170), 20, y);
+
+  y += 30;
+  doc.setFontSize(13);
+  doc.setTextColor(30);
+  doc.text('Détails par axe :', 20, y);
+  y += 8;
+
+  axes.forEach((axe, i) => {
+    doc.setFontSize(11);
+    doc.setTextColor(20);
+    doc.text(`- ${axe} → ${niveauxAxes[i]}`, 22, y);
+    y += 6;
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    const lines = doc.splitTextToSize(axeDescriptions[axe], 170);
+    doc.text(lines, 24, y);
+    y += lines.length * 6 + 4;
+  });
+
+  y += 10;
+  doc.setFontSize(10);
+  doc.setTextColor(150);
+  doc.text("Généré par Digitancy", 20, y);
+
+  doc.save(`Diagnostic_${nom}.pdf`);
+}
+</script>
+</body>
+</html>
